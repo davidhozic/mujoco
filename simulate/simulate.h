@@ -30,6 +30,8 @@
 #include <mujoco/mjui.h>
 #include <mujoco/mujoco.h>
 #include "platform_ui_adapter.h"
+#include "glfw_adapter.h"
+
 
 namespace mujoco {
 
@@ -50,9 +52,7 @@ class Simulate {
   static constexpr int kMaxGeom = 20000;
 
   // create object and initialize the simulate ui
-  Simulate(
-      std::unique_ptr<PlatformUIAdapter> platform_ui_adapter,
-      mjvCamera* cam, mjvOption* opt, mjvPerturb* pert, bool is_passive);
+  Simulate(mjvCamera* cam, mjvOption* opt, mjvPerturb* pert, bool is_passive);
 
   // Synchronize mjModel and mjData state with UI inputs, and update
   // visualization.
@@ -262,7 +262,7 @@ class Simulate {
   int refresh_rate = 60;
   int window_pos[2] = {0};
   int window_size[2] = {0};
-  std::unique_ptr<PlatformUIAdapter> platform_ui;
+  GlfwAdapter platform_ui;
   mjuiState& uistate;
   mjUI ui0 = {};
   mjUI ui1 = {};
