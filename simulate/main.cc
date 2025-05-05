@@ -526,16 +526,15 @@ int main(int argc, char** argv) {
 
   // simulate object encapsulates the UI
   auto sim = std::make_unique<mj::Simulate>(
-      std::make_unique<mj::GlfwAdapter>(),
-      &cam, &opt, &pert, /* is_passive = */ false
-  );
+    &cam, &opt, &pert, /* is_passive = */ false
+);
 
   const char* filename = nullptr;
   if (argc >  1) {
     filename = argv[1];
   }
 
-  // start physics thread
+//   start physics thread
   std::thread physicsthreadhandle(&PhysicsThread, sim.get(), filename);
 
   // start simulation UI loop (blocking call)
