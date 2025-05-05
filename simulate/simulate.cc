@@ -2745,10 +2745,8 @@ void Simulate::Render() {
   this->platform_ui.SwapBuffers();
 }
 
-
-
-void Simulate::RenderLoop() {
-  // Set timer callback (milliseconds)
+void Simulate::RenderInit() {
+    // Set timer callback (milliseconds)
   mjcb_time = Timer;
 
   // init abstract visualization
@@ -2820,9 +2818,21 @@ void Simulate::RenderLoop() {
 
   frames_ = 0;
   last_fps_update_ = mj::Simulate::Clock::now();
+}
 
-  // run event loop
-  while (!this->platform_ui.ShouldCloseWindow() && !this->exitrequest.load()) {
+void Simulate::RenderCleanup() {
+  const MutexLock lock(this->mtx);
+  mjv_freeScene(&this->scn);
+  if (is_passive_) {
+      mjv_freeSceneState(&scnstate_);
+  }
+  
+  this->exitrequest.store(2);
+}
+
+bool Simulate::RenderStep() {
+  bool runEventLoop = !this->platform_ui.ShouldCloseWindow() && !this->exitrequest.load();
+  if (runEventLoop) {
     {
       const MutexLock lock(this->mtx);
 
@@ -2890,15 +2900,8 @@ void Simulate::RenderLoop() {
       frames_ = 0;
     }
   }
-
-  const MutexLock lock(this->mtx);
-  mjv_freeScene(&this->scn);
-  if (is_passive_) {
-    mj_deleteData(d_passive_);
-    mj_deleteModel(m_passive_);
-  }
-
-  this->exitrequest.store(2);
+  
+  return runEventLoop;
 }
 
 // add state to history buffer

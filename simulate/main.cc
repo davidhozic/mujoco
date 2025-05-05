@@ -538,7 +538,9 @@ int main(int argc, char** argv) {
   std::thread physicsthreadhandle(&PhysicsThread, sim.get(), filename);
 
   // start simulation UI loop (blocking call)
-  sim->RenderLoop();
+  sim->RenderInit();
+  while (sim->RenderStep());
+  sim->RenderCleanup();
   physicsthreadhandle.join();
 
   return 0;

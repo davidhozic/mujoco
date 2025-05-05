@@ -83,7 +83,9 @@ class Simulate {
   void Render();
 
   // loop to render the UI (must be called from main thread because of MacOS)
-  void RenderLoop();
+  bool RenderStep();
+  void RenderInit();
+  void RenderCleanup();
 
   // add state to history buffer
   void AddToHistory();
