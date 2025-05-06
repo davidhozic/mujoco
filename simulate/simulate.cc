@@ -2977,4 +2977,8 @@ void Simulate::UpdateTexture(int texid) {
   texture_upload_ = texid;
   cond_upload_.wait(lock, [this]() { return texture_upload_ == -1; });
 }
+
+void Simulate::destructFromRust() {
+  this->~Simulate();
+}
 }  // namespace mujoco

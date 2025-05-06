@@ -93,6 +93,9 @@ class Simulate {
   // inject control noise
   void InjectNoise();
 
+  // proxy method to be called from the Rust bindings. This will call the object's destructor
+  void destructFromRust();
+
   // constants
   static constexpr int kMaxFilenameLength = 1000;
 
