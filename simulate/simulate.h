@@ -96,6 +96,9 @@ class Simulate {
   // proxy method to be called from the Rust bindings. This will call the object's destructor
   void destructFromRust();
 
+  // returns whether the viewer is running (exitrequest != 2)
+  bool Running();
+
   // constants
   static constexpr int kMaxFilenameLength = 1000;
 

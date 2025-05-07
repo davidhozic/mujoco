@@ -2981,4 +2981,8 @@ void Simulate::UpdateTexture(int texid) {
 void Simulate::destructFromRust() {
   this->~Simulate();
 }
+
+bool Simulate::Running() {
+  return this->exitrequest.load() != 2;
+}
 }  // namespace mujoco
