@@ -33,7 +33,6 @@
 #include <mujoco/mjvisualize.h>
 #include <mujoco/mjxmacro.h>
 #include <mujoco/mujoco.h>
-#include "platform_ui_adapter.h"
 #include "array_safety.h"
 
 // When launched via an App Bundle on macOS, the working directory is the path to the App Bundle's
@@ -1347,7 +1346,7 @@ void UpdateSettings(mj::Simulate* sim, const mjModel* m) {
 }
 
 // Compute suitable font scale.
-int ComputeFontScale(const mj::PlatformUIAdapter& platform_ui) {
+int ComputeFontScale(const mj::GlfwAdapter& platform_ui) {
   // compute framebuffer-to-window ratio
   auto [buf_width, buf_height] = platform_ui.GetFramebufferSize();
   auto [win_width, win_height] = platform_ui.GetWindowSize();
