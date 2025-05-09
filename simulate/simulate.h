@@ -52,7 +52,7 @@ class Simulate {
   static constexpr int kMaxGeom = 100000;
 
   // create object and initialize the simulate ui
-  Simulate(mjvCamera* cam, mjvOption* opt, mjvPerturb* pert, bool is_passive);
+  Simulate(mjvCamera* cam, mjvOption* opt, mjvPerturb* pert, mjvScene* user_scn, bool is_passive);
 
   // Synchronize state with UI inputs, and update visualization.  If state_only
   // is false mjData and mjModel will be updated, otherwise only the subset of

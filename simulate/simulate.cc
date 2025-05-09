@@ -1896,11 +1896,12 @@ void UiEvent(mjuiState* state) {
 namespace mujoco {
 namespace mju = ::mujoco::sample_util;
 
-Simulate::Simulate(mjvCamera* cam, mjvOption* opt, mjvPerturb* pert, bool is_passive)
+Simulate::Simulate(mjvCamera* cam, mjvOption* opt, mjvPerturb* pert, mjvScene* user_scn, bool is_passive)
     : is_passive_(is_passive),
       cam(*cam),
       opt(*opt),
       pert(*pert),
+      user_scn(user_scn),
       platform_ui(),
       uistate(this->platform_ui.state())
 {

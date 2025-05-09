@@ -526,7 +526,8 @@ int main(int argc, char** argv) {
 
   // simulate object encapsulates the UI
   auto sim = std::make_unique<mj::Simulate>(
-    &cam, &opt, &pert, /* is_passive = */ false
+    &cam, &opt, &pert, /* user_scn = */ nullptr,
+    /* is_passive = */ false
 );
 
   const char* filename = nullptr;
