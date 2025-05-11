@@ -96,7 +96,7 @@ else()
   set(MUJOCO_RESOURCE_FILES "")
 endif()
 
-add_library(mujoco SHARED ${MUJOCO_RESOURCE_FILES})
+add_library(mujoco STATIC ${MUJOCO_RESOURCE_FILES})
 target_include_directories(
   mujoco
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -215,15 +215,27 @@ if(BUILD_TESTING AND MUJOCO_BUILD_TESTS)
 endif()
 
 if(NOT (APPLE AND MUJOCO_BUILD_MACOS_FRAMEWORKS))
+
+    get_target_property(_LP_INC lodepng INTERFACE_INCLUDE_DIRECTORIES)
+
+    # Now overwrite it so that:
+    #  - in-build: uses the original build-tree path
+    #  - on-install: uses the install include dir (e.g. ${CMAKE_INSTALL_INCLUDEDIR}/mujoco or /include)
+    set_target_properties(lodepng PROPERTIES
+    INTERFACE_INCLUDE_DIRECTORIES
+        "$<BUILD_INTERFACE:${_LP_INC}>;$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/lodepng>"
+    )
+
   # Install the libraries.
   install(
-    TARGETS mujoco
+    TARGETS mujoco lodepng
     EXPORT ${PROJECT_NAME}
     RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" COMPONENT runtime
     LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}" COMPONENT runtime
     ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}" COMPONENT dev
     PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/mujoco" COMPONENT dev
   )
+
 
   set(CONFIG_PACKAGE_LOCATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
 
