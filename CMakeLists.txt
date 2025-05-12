@@ -90,7 +90,7 @@ set(MUJOCO_HEADERS
 )
 
 # Add metadata to mujoco.dll when building on Windows.
-if(WIN32)
+if(MSVC)
   set(MUJOCO_RESOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/dist/mujoco.rc)
 else()
   set(MUJOCO_RESOURCE_FILES "")
