@@ -2986,3 +2986,16 @@ bool Simulate::Running() {
   return this->exitrequest.load() != 2;
 }
 }  // namespace mujoco
+
+
+
+extern "C" {
+  // Allocates a new Simulate object for use from outside of C++
+  mujoco::Simulate* new_simulate(mjvCamera* cam, mjvOption* opt, mjvPerturb* pert, mjvScene* user_scn, bool is_passive) {
+    return new mujoco::Simulate(cam, opt, pert, user_scn, is_passive);
+  }
+
+  void free_simulate(mujoco::Simulate* simulate) {
+    delete simulate;
+  }
+}

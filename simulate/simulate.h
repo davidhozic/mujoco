@@ -358,4 +358,9 @@ class Simulate {
 };
 }  // namespace mujoco
 
+extern "C" {
+  mujoco::Simulate* new_simulate(mjvCamera* cam, mjvOption* opt, mjvPerturb* pert, mjvScene* user_scn, bool is_passive);
+  void free_simulate(mujoco::Simulate* simulate);
+}
+
 #endif
