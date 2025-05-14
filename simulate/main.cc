@@ -540,7 +540,7 @@ int main(int argc, char** argv) {
 
   // start simulation UI loop (blocking call)
   sim->RenderInit();
-  while (sim->RenderStep());
+  while (sim->RenderStep(true));
   sim->RenderCleanup();
   physicsthreadhandle.join();
 

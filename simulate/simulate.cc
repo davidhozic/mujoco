@@ -2830,7 +2830,7 @@ void Simulate::RenderCleanup() {
   this->exitrequest.store(2);
 }
 
-bool Simulate::RenderStep() {
+bool Simulate::RenderStep(bool update_timer) {
   bool runEventLoop = !this->platform_ui.ShouldCloseWindow() && !this->exitrequest.load();
   if (runEventLoop) {
     {
@@ -2891,13 +2891,15 @@ bool Simulate::RenderStep() {
     this->Render();
 
     // update FPS stat, at most 5 times per second
-    auto now = mj::Simulate::Clock::now();
-    double interval = Seconds(now - last_fps_update_).count();
-    ++frames_;
-    if (interval > 0.2) {
-      last_fps_update_ = now;
-      fps_ = frames_ / interval;
-      frames_ = 0;
+    if (update_timer) {
+      auto now = mj::Simulate::Clock::now();
+      double interval = Seconds(now - last_fps_update_).count();
+      ++frames_;
+      if (interval > 0.2) {
+        last_fps_update_ = now;
+        fps_ = frames_ / interval;
+        frames_ = 0;
+      }
     }
   }
   

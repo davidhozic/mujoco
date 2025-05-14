@@ -83,7 +83,7 @@ class Simulate {
   void Render();
 
   // loop to render the UI (must be called from main thread because of MacOS)
-  bool RenderStep();
+  bool RenderStep(bool update_timer);
   void RenderInit();
   void RenderCleanup();
 
