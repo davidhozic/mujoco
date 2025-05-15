@@ -203,7 +203,7 @@ class Simulate {
   int sensor = 0;
   int pause_update = 1;
   int fullscreen = 0;
-  int vsync = 1;
+  int vsync = 0;
   int busywait = 0;
 
   // keyframe index
@@ -309,7 +309,7 @@ class Simulate {
   #else
     {mjITEM_CHECKINT, "Fullscreen",    1, &this->fullscreen, " #294"},
   #endif
-    {mjITEM_CHECKINT, "Vertical Sync", 1, &this->vsync,      ""},
+    {mjITEM_CHECKINT, "Vertical Sync", 4, &this->vsync,      ""},
     {mjITEM_CHECKINT, "Busy Wait",     1, &this->busywait,   ""},
     {mjITEM_SELECT,   "Spacing",       1, &this->spacing,    "Tight\nWide"},
     {mjITEM_SELECT,   "Color",         1, &this->color,      "Default\nOrange\nWhite\nBlack"},
