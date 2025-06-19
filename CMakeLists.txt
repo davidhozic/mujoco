@@ -90,13 +90,18 @@ set(MUJOCO_HEADERS
 )
 
 # Add metadata to mujoco.dll when building on Windows.
-if(MSVC)
+if(WIN32)
   set(MUJOCO_RESOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/dist/mujoco.rc)
 else()
   set(MUJOCO_RESOURCE_FILES "")
 endif()
 
+if(BUILD_SHARED_LIBS)
+add_library(mujoco SHARED ${MUJOCO_RESOURCE_FILES})
+else()
 add_library(mujoco STATIC ${MUJOCO_RESOURCE_FILES})
+endif()
+
 target_include_directories(
   mujoco
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -215,17 +220,6 @@ if(BUILD_TESTING AND MUJOCO_BUILD_TESTS)
 endif()
 
 if(NOT (APPLE AND MUJOCO_BUILD_MACOS_FRAMEWORKS))
-
-    get_target_property(_LP_INC lodepng INTERFACE_INCLUDE_DIRECTORIES)
-
-    # Now overwrite it so that:
-    #  - in-build: uses the original build-tree path
-    #  - on-install: uses the install include dir (e.g. ${CMAKE_INSTALL_INCLUDEDIR}/mujoco or /include)
-    set_target_properties(lodepng PROPERTIES
-    INTERFACE_INCLUDE_DIRECTORIES
-        "$<BUILD_INTERFACE:${_LP_INC}>;$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/lodepng>"
-    )
-
   # Install the libraries.
   install(
     TARGETS mujoco lodepng
@@ -235,7 +229,6 @@ if(NOT (APPLE AND MUJOCO_BUILD_MACOS_FRAMEWORKS))
     ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}" COMPONENT dev
     PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/mujoco" COMPONENT dev
   )
-
 
   set(CONFIG_PACKAGE_LOCATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
 
