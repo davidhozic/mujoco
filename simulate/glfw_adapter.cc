@@ -118,6 +118,10 @@ GlfwAdapter::~GlfwAdapter() {
   Glfw().glfwDestroyWindow(window_);
 }
 
+void GlfwAdapter::MakeCurrent() {
+    Glfw().glfwMakeContextCurrent(window_);
+}
+
 std::pair<double, double> GlfwAdapter::GetCursorPosition() const {
   double x, y;
   Glfw().glfwGetCursorPos(window_, &x, &y);

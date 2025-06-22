@@ -1913,6 +1913,7 @@ Simulate::Simulate(mjvCamera* cam, mjvOption* opt, mjvPerturb* pert, mjvScene* u
 // operations which require holding the mutex, prevents racing with physics thread
 void Simulate::Sync(bool state_only) {
   MutexLock lock(this->mtx);
+  this->platform_ui.MakeCurrent();
 
   if (!m_) {
     return;
@@ -2456,6 +2457,7 @@ void Simulate::LoadOnRenderThread() {
 
 // render the ui to the window
 void Simulate::Render() {
+  this->platform_ui.MakeCurrent();
   // update rendering context buffer size if required
   if (this->platform_ui.EnsureContextSize()) {
     UiModify(&this->ui0, &this->uistate, &this->platform_ui.mjr_context());
@@ -2746,6 +2748,7 @@ void Simulate::Render() {
 }
 
 void Simulate::RenderInit() {
+  this->platform_ui.MakeCurrent();
     // Set timer callback (milliseconds)
   mjcb_time = Timer;
 
@@ -2831,6 +2834,7 @@ void Simulate::RenderCleanup() {
 }
 
 bool Simulate::RenderStep(bool update_timer) {
+  this->platform_ui.MakeCurrent();
   bool runEventLoop = !this->platform_ui.ShouldCloseWindow() && !this->exitrequest.load();
   if (runEventLoop) {
     {
