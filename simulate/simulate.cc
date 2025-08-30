@@ -2592,7 +2592,7 @@ void Simulate::Render() {
 
   if (pending_.ui_update_equality) {
     if (this->ui1_enable && this->ui1.sect[SECT_EQUALITY].state) {
-      mjui_update(SECT_EQUALITY, -1, &this->ui1, &this->uistate, &this->platform_ui->mjr_context());
+      mjui_update(SECT_EQUALITY, -1, &this->ui1, &this->uistate, &this->platform_ui.mjr_context());
     }
     pending_.ui_update_equality = false;
   }
@@ -2826,10 +2826,6 @@ void Simulate::RenderInit() {
 void Simulate::RenderCleanup() {
   const MutexLock lock(this->mtx);
   mjv_freeScene(&this->scn);
-  if (is_passive_) {
-      mjv_freeSceneState(&scnstate_);
-  }
-  
   this->exitrequest.store(2);
 }
 
